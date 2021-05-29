@@ -1,0 +1,9 @@
+#pip install -r ./requirements.txt
+Django==2.2.1
+django-cors-headers==3.7.0
+djangorestframework==3.12.4
+psycopg2==2.8.6
+pytz==2021.1
+selenium==3.141.0
+sqlparse==0.4.1
+urllib3==1.26.4
