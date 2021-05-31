@@ -6,12 +6,10 @@ import time
 from parsing.models import Product
 
 class Command(BaseCommand):
-    help = 'Displays current time'
+    help = 'Wildberries parser'
 
     def handle(self, *args, **kwargs):
-        '''time = timezone.now().strftime('%X')
-        self.stdout.write("It's now %s" % time)
-        Product.objects.create(product='test')'''
+        self.stdout.write("Идёт процесс парсинга...")
         ua = dict(DesiredCapabilities.FIREFOX)
         options = webdriver.FirefoxOptions()
         options.set_headless() 
@@ -19,12 +17,11 @@ class Command(BaseCommand):
 
         driver = webdriver.Firefox(firefox_options=options)
 
-        driver.get('https://www.wildberries.ru/brands/marks-and-spencer/all?fkind=2&sort=popular&bid=450a8a63-dab7-4c97-8f69-3991071e689d')
-
-        time.sleep(10)
-
-        #product = driver.find_element_by_xpath('//*[@id="catalog-content"]/div[4]/div[1]/div')
-
-        for i in range(1, 100 + 1):
-            prod = driver.find_element_by_xpath(f'//*[@id="catalog-content"]/div[4]/div[{i}]/div')
-            Product.objects.create(product= prod.text)
+        for i in range(1, 10):
+            driver.get(f'https://www.wildberries.ru/brands/marks-and-spencer/all?page={i}')
+            time.sleep(10)
+            
+            for f in range(1, 100 + 1):
+                prod = driver.find_element_by_xpath(f'//*[@id="catalog-content"]/div[4]/div[{f}]/div')
+                Product.objects.create(product= prod.text)
+        self.stdout.write("Готово")
